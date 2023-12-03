@@ -13,4 +13,3 @@ const quizContainer = [
 
 
 
-// window.replace url = highscore.html

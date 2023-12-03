@@ -14,6 +14,13 @@ const questionDiv = document.getElementById("questions");
 const time = document.getElementById("time");
 // const endscreen
 const endScreenDiv = document.getElementById("end-screen");
+// Result Container and Score Element
+const resultContainer = document.getElementById("feedback");
+// const final score
+const scoreElement = document.getElementById("final-score");
+// submit button
+const submitButton = document.getElementById("submit");
+
 
 let currentQuestion = 0;
 let score = 0;
@@ -29,37 +36,89 @@ count--;
  if (count === 0) {
   alert("Time is up");
   endQuiz();
+  }
 }
-}
+
 
 // startQuiz => function using button, timer,
 startButton.addEventListener("click", startQuiz);
 
 // function startQuiz
 function startQuiz() {
-  startButton.style.display = "none";
-  questionDiv.classList.remove("hide");
-  showQuestion(currentQuestion);
-  timer = setInterval(updateTimer, 1000);
+startButton.style.display = "none";
+questionDiv.classList.remove("hide");
+showQuestion(currentQuestion);
+timer = setInterval(updateTimer, 1000);
 }
 // showQuestion => function with loop
 function showQuestion(index, container) {
-  const currentQuestion = quizContainer[index];
-  questionTitle.textContent = currentQuestion.question;
-  choices.textContent = "";
-  currentQuestion.answers.forEach((answer) => {
-    let button = document.createElement("button");
-    button.textContent = answer;
-    choices.appendChild(button);
-    
-  });
-  choices.addEventListener("click", checkAnswer);
+const currentQuestion = quizContainer[index];
+questionTitle.textContent = currentQuestion.question;
+choices.textContent = "";
+currentQuestion.answers.forEach((answer) => {
+  let button = document.createElement("button");
+  button.textContent = answer;
+  choices.appendChild(button);
   
+});
+choices.addEventListener("click", checkAnswer);
+
+}
+// checkAnswer 
+
+function checkAnswer(event) {
+const selectedAnswer = event.target;
+const selectedAnswerIndex = quizContainer[index].answers.findIndex(answer => answer === selectedAnswer.textContent);
+const isCorrect = JSON.parse(selectedAnswer.getAttribute("data-correct"));
+
+if (selectedAnswerIndex === quizContainer[index].correctIndex) {
+      alert("correct");
+      }
+      else  {
+      count -=10;
+      alert("wrong");
+      }
+      
+index++;
+if (index < quizContainer.length) {
+  
+  showQuestion(index);
+} else {
+  endQuiz();
+}
+}
+// endQuiz => function displays score, resets timer
+function endQuiz() {
+clearInterval(timer);
+resultContainer.classList.remove("hide");
+scoreElement.textContent = time.textContent;
+endScreenDiv.classList.remove("hide");
+questionDiv.classList.add("hide");
 }
 
-// checkAnswer => function with if else
-//                  correct - adds points (add sound)
-//                  incorrect - substract points, time penalty (add sound)
-// endQuiz => function displays score, resets timer
+submitButton.addEventListener("click", saveScore);
 // saveScore => file score.js function with initials input(max 3 letters) store it in localStorage
-// window.location.replace(url:"scores.js")
+function saveScore() {
+  const initials = initialsInput.value.trim();
+
+  if (initials !== '') {
+      //  Save it to localStorage or send it to a server
+    const scores = JSON.parse(localStorage.getItem('scores')) || [];
+    
+    const newScore = {
+      initials: initials,
+      score: score, 
+    };
+     // Add the new score to the scores array
+  scores.push(newScore);
+
+  // Sort the scores in descending order (highest score first)
+  scores.sort((a, b) => b.score - a.score);
+
+  // Save the updated scores array back to local storage
+  localStorage.setItem('scores', JSON.stringify(scores));
+  alert(`Score saved for ${initials}!`);
+  } else {
+    alert('Please enter your initials.');
+  }
+}
