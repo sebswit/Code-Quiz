@@ -1,22 +1,14 @@
-// create a question container with object
-// const = quizContainerBeginer = ......
-// const = quizContainerExpert = .....
-// const questionsBeginer =[
-//  {
-//    questionTitle =          HTML question-title
-//    question:"",             
-//    answers:["","","",""],   HTML choices
-//    correctIndex: ,
-//}
-// const questionsExpert =[
-//  {
-//    questionTitle =          HTML question-title
-//    question:"",             
-//    answers:["","","",""],   HTML choices
-//    correctIndex: ,
-//}
-
-
+const quizContainer = [
+    {
+      question: "What is 2 + 2?",
+      answers: ["4", "5", "3"],
+      correctIndex: 0
+    },
+    {
+      question: "What is the capital of France?",
+      answers: ["Berlin", "Paris", "Madrid"],
+      correctIndex: 1
+    }]
 
 
 

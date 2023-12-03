@@ -1,6 +1,6 @@
 // const start button 
 const startButton = document.getElementById("start");
-// const questionsBeginner => document.querySelector??
+// const question title
 const questionTitle = document.getElementById("question-title");
 // Define your answers
 const choices = document.getElementById("choices");
@@ -19,8 +19,6 @@ let currentQuestion = 0;
 let score = 0;
 let timer = 0;
 let index = 0;
-let level = "beginner";
-let quizContainer = easyContainer;
 let count = quizContainer.length *15;
 let answer = quizContainer[1];
 
@@ -33,8 +31,32 @@ count--;
   endQuiz();
 }
 }
-// startQuiz => function using button, timer, and radiobutton for level
-// showQuestion => function with loop based on radiobutton
+
+// startQuiz => function using button, timer,
+startButton.addEventListener("click", startQuiz);
+
+// function startQuiz
+function startQuiz() {
+  startButton.style.display = "none";
+  questionDiv.classList.remove("hide");
+  showQuestion(currentQuestion);
+  timer = setInterval(updateTimer, 1000);
+}
+// showQuestion => function with loop
+function showQuestion(index, container) {
+  const currentQuestion = quizContainer[index];
+  questionTitle.textContent = currentQuestion.question;
+  choices.textContent = "";
+  currentQuestion.answers.forEach((answer) => {
+    let button = document.createElement("button");
+    button.textContent = answer;
+    choices.appendChild(button);
+    
+  });
+  choices.addEventListener("click", checkAnswer);
+  
+}
+
 // checkAnswer => function with if else
 //                  correct - adds points (add sound)
 //                  incorrect - substract points, time penalty (add sound)
