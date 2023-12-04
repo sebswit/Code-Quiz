@@ -94,17 +94,19 @@ function playSound(soundFile) {
 
   audio.play();
 }
+
 // endQuiz => function displays score, resets timer
 function endQuiz() {
-clearInterval(timer);
-resultContainer.classList.remove("hide");
-scoreElement.textContent = time.textContent;
-endScreenDiv.classList.remove("hide");
-questionDiv.classList.add("hide");
+  clearInterval(timer);
+  resultContainer.classList.remove("hide");
+  scoreElement.textContent = count;
+  endScreenDiv.classList.remove("hide");
+  questionDiv.classList.add("hide");
 }
 
 submitButton.addEventListener("click", saveScore);
-// saveScore => file score.js function with initials input(max 3 letters) store it in localStorage
+
+// saveScore =>  function with initials input(max 3 letters) store it in localStorage
 function saveScore() {
   const initials = initialsInput.value.trim();
 
@@ -114,21 +116,21 @@ function saveScore() {
 
     const newScore = {
       initials: initials,
-      score: score,
+      score: count,
     };
 
     // Add the new score to the scores array
     scores.push(newScore);
 
-     // Sort the scores in descending order (highest score first)
+    // Sort the scores in descending order (highest score first)
     scores.sort((a, b) => b.score - a.score);
 
     // Save the updated scores array back to local storage
     localStorage.setItem('scores', JSON.stringify(scores));
-  
+
     // Travels to final page
     window.location.replace("./HighScores.html");
-    
+
     alert(`Score saved for ${initials}!`);
   } else {
     alert('Please enter your initials.');

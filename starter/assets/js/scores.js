@@ -6,7 +6,7 @@ let goBack = document.querySelector("#goBack");
 // Event listener to clear scores 
 clear.addEventListener("click", function () {
   localStorage.clear();
-  location.reload();
+  location.reload(scores);
 });
 
 // Retrieves local storage 
