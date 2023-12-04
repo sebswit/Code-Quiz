@@ -1,21 +1,28 @@
 // High Scores Container
-const highScoreContainer = document.getElementById("highscores");
-highScoreContainer.addEventListener("click", function() {
- window.location.replace("highscores.html")});
-// Function to display high scores
-function displayHighScores() {
-    // Get existing scores from local storage or initialize an empty array
-    const scores = JSON.parse(localStorage.getItem('scores')) || [];
-  
-    // Clear the highScoreContainer before displaying scores
-    highScoreContainer.innerHTML = '';
-  
-    // Display each score in the highScoreContainer
-    scores.forEach((score, index) => {
-      const listItem = document.createElement('li');
-      listItem.textContent = `${index + 1}. ${score.initials}: ${score.score}`;
-      highScoreContainer.appendChild(listItem);
-    });
-  }
+let highScore = document.querySelector("#highScore");
+let clear = document.querySelector("#clear");
+let goBack = document.querySelector("#goBack");
 
+// Event listener to clear scores 
+clear.addEventListener("click", function () {
+  localStorage.clear();
+  location.reload();
+});
+
+// Retrieves local storage 
+let scores = localStorage.getItem("scores");
+scores = JSON.parse(scores);
+
+if (scores !== null) {
+  for (var i = 0; i < scores.length; i++) {
+    let createLi = document.createElement("li");
+    createLi.textContent = scores[i].initials + " " + scores[i].score;
+    highScore.appendChild(createLi);
+  }
+}
+
+// Event listener to move to index page
+goBack.addEventListener("click", function () {
+  window.location.replace("./index.html");
+});
 

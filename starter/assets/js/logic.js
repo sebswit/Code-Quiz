@@ -26,29 +26,29 @@ let currentQuestion = 0;
 let score = 0;
 let timer = 0;
 let index = 0;
-let count = quizContainer.length *15;
+let count = quizContainer.length * 15;
 let answer = quizContainer[1];
 
 // Timer Function
 function updateTimer() {
   time.textContent = count;
-count--;
- if (count === 0) {
-  alert("Time is up");
-  endQuiz();
+  count--;
+  if (count <= 0) {
+    clearInterval(timer);
+    time.textContent = "Time is up";
+    endQuiz();
   }
 }
-
 
 // startQuiz => function using button, timer,
 startButton.addEventListener("click", startQuiz);
 
 // function startQuiz
 function startQuiz() {
-startButton.style.display = "none";
-questionDiv.classList.remove("hide");
-showQuestion(currentQuestion);
-timer = setInterval(updateTimer, 1000);
+  startButton.style.display = "none";
+  questionDiv.classList.remove("hide");
+  showQuestion(currentQuestion);
+  timer = setInterval(updateTimer, 1000);
 }
 // showQuestion => function with loop
 function showQuestion(index, container) {
@@ -67,25 +67,32 @@ choices.addEventListener("click", checkAnswer);
 // checkAnswer 
 
 function checkAnswer(event) {
-const selectedAnswer = event.target;
-const selectedAnswerIndex = quizContainer[index].answers.findIndex(answer => answer === selectedAnswer.textContent);
-const isCorrect = JSON.parse(selectedAnswer.getAttribute("data-correct"));
+  const selectedAnswer = event.target;
+  const selectedAnswerIndex = quizContainer[index].answers.findIndex(answer => answer === selectedAnswer.textContent);
+  const isCorrect = JSON.parse(selectedAnswer.getAttribute("data-correct"));
 
-if (selectedAnswerIndex === quizContainer[index].correctIndex) {
-      alert("correct");
-      }
-      else  {
-      count -=10;
-      alert("wrong");
-      }
-      
-index++;
-if (index < quizContainer.length) {
-  
-  showQuestion(index);
-} else {
-  endQuiz();
+  // Play sound file for correct or wrong answer
+  if (selectedAnswerIndex === quizContainer[index].correctIndex) {
+    playSound("correct.wav");
+    
+  } else {
+    playSound("incorrect.wav");
+    count -= 10;
+    time.textContent = count;
+  }
+
+  index++;
+  if (index < quizContainer.length) {
+    showQuestion(index);
+  } else {
+    endQuiz();
+  }
 }
+
+function playSound(soundFile) {
+  const audio = new Audio(`./assets/sfx/${soundFile}`);
+
+  audio.play();
 }
 // endQuiz => function displays score, resets timer
 function endQuiz() {
@@ -102,22 +109,27 @@ function saveScore() {
   const initials = initialsInput.value.trim();
 
   if (initials !== '') {
-      //  Save it to localStorage or send it to a server
+    // Save it to localStorage or send it to a server
     const scores = JSON.parse(localStorage.getItem('scores')) || [];
-    
+
     const newScore = {
       initials: initials,
-      score: score, 
+      score: score,
     };
-     // Add the new score to the scores array
-  scores.push(newScore);
 
-  // Sort the scores in descending order (highest score first)
-  scores.sort((a, b) => b.score - a.score);
+    // Add the new score to the scores array
+    scores.push(newScore);
 
-  // Save the updated scores array back to local storage
-  localStorage.setItem('scores', JSON.stringify(scores));
-  alert(`Score saved for ${initials}!`);
+     // Sort the scores in descending order (highest score first)
+    scores.sort((a, b) => b.score - a.score);
+
+    // Save the updated scores array back to local storage
+    localStorage.setItem('scores', JSON.stringify(scores));
+  
+    // Travels to final page
+    window.location.replace("./HighScores.html");
+    
+    alert(`Score saved for ${initials}!`);
   } else {
     alert('Please enter your initials.');
   }
