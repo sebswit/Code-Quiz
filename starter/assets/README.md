@@ -7,7 +7,7 @@ A website that uses Javascript to present the user with a timed quiz on Javascri
 # Preview
 Here is a mock-up of how the page looks.
 
- ![Screenshot of my project](./starter/assets/Opera%20Snapshot_2023-12-05_180325_index.html.png)
+ ![Screenshot of my project](./Opera%20Snapshot_2023-12-05_180325_index.html.png)
 
 # Built With
 
