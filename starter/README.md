@@ -18,7 +18,7 @@ Here is a mock-up of how the page looks.
 This project was built to highlight skills learned in Javascript and Local Storage
 
 # Website
- - https://sebswit.github.io/code-quiz/
+ - https://sebswit.github.io/Code-Quiz/
 
  Resourses used for this challenge
  - https://developer.mozilla.org/,
